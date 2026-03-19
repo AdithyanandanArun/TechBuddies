@@ -1,137 +1,122 @@
-<h2>Attendance System</h2>
+<!DOCTYPE html>
+<html>
 
-<!-- MARK ATTENDANCE -->
+<div class="container">
 
-<h3>Mark Attendance</h3>
+    <head>
+        <title>Attendance</title>
 
-<form method="POST" action="/save_attendance">
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    </head>
 
-    <input type="date" name="date" required>
+    <body class="{{ 'dark' if session.get('theme') == 'dark' else '' }}">
 
-    <table border="1">
+        {% include 'navbar.html' %}
 
-        <tr>
-            <th>Name</th>
-            <th>Present</th>
-            <th>Absent</th>
-        </tr>
 
-        {% for student in students %}
+        <h2>Attendance System</h2>
 
-        <tr>
+        <h3>Mark Attendance</h3>
+        <form method="POST" action="/save_attendance">
+            <input type="date" name="date" required>
 
-            <td>{{ student.name }}</td>
+            <table>
+                <tr>
+                    <th>Name</th>
+                    <th>Present</th>
+                    <th>Absent</th>
+                </tr>
 
-            <td>
-                <input type="radio" name="status_{{ student.id }}" value="Present">
-            </td>
+                {% for student in students %}
+                <tr>
+                    <td>{{ student.name }}</td>
+                    <td><input type="radio" name="status_{{ student.id }}" value="Present"></td>
+                    <td><input type="radio" name="status_{{ student.id }}" value="Absent"></td>
+                </tr>
+                {% endfor %}
+            </table>
 
-            <td>
-                <input type="radio" name="status_{{ student.id }}" value="Absent">
-            </td>
+            <br>
+            <button type="submit">Save Attendance</button>
+        </form>
 
-        </tr>
+        <hr>
 
-        {% endfor %}
+        <form method="GET" action="/attendance">
+            <input type="date" name="date" value="{{ request.args.get('date','') }}">
+            <button type="submit">Filter</button>
+        </form>
 
-    </table>
+        <h3>Attendance History</h3>
 
-    <br>
+        <table>
+            <tr>
+                <th>Student ID</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
 
-    <button type="submit">Save Attendance</button>
+            {% for r in records %}
+            <tr>
+                <td>{{ r.student_id }}</td>
+                <td>{{ r.date }}</td>
+                <td>{{ r.status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
 
-</form>
+        <hr>
 
-<hr>
+        <h3>Attendance Report</h3>
 
-<!-- ATTENDANCE HISTORY -->
+        <table>
+            <tr>
+                <th>Name</th>
+                <th>Total</th>
+                <th>Present</th>
+                <th>Percentage</th>
+            </tr>
 
-<h3>Attendance History</h3>
+            {% for r in report %}
+            <tr>
+                <td>{{ r.name }}</td>
+                <td>{{ r.total }}</td>
+                <td>{{ r.present }}</td>
+                <td>{{ r.percentage }}%</td>
+            </tr>
+            {% endfor %}
+        </table>
 
-<table border="1">
+        <hr>
 
-    <tr>
-        <th>Student ID</th>
-        <th>Date</th>
-        <th>Status</th>
-    </tr>
+        <h3>Monthly Attendance</h3>
 
-    {% for r in records %}
+        <form method="GET" action="/attendance">
+            <input type="month" name="month">
+            <button type="submit">View</button>
+        </form>
 
-    <tr>
+        <table>
+            <tr>
+                <th>Student ID</th>
+                <th>Date</th>
+                <th>Status</th>
+            </tr>
 
-        <td>{{ r.student_id }}</td>
-        <td>{{ r.date }}</td>
-        <td>{{ r.status }}</td>
+            {% for r in monthly_records %}
+            <tr>
+                <td>{{ r.student_id }}</td>
+                <td>{{ r.date }}</td>
+                <td>{{ r.status }}</td>
+            </tr>
+            {% endfor %}
+        </table>
 
-    </tr>
+</div>
 
-    {% endfor %}
+</body>
 
-</table>
 
-<hr>
+</div>
 
-<!-- ATTENDANCE REPORT -->
-
-<h3>Attendance Report</h3>
-
-<table border="1">
-
-    <tr>
-        <th>Name</th>
-        <th>Total</th>
-        <th>Present</th>
-        <th>Percentage</th>
-    </tr>
-
-    {% for r in report %}
-
-    <tr>
-
-        <td>{{ r.name }}</td>
-        <td>{{ r.total }}</td>
-        <td>{{ r.present }}</td>
-        <td>{{ r.percentage }}%</td>
-
-    </tr>
-
-    {% endfor %}
-
-</table>
-
-<hr>
-
-<!-- MONTHLY REPORT -->
-
-<h3>Monthly Attendance</h3>
-
-<form>
-
-    <input type="month" name="month">
-
-    <button type="submit">View</button>
-
-</form>
-
-<table border="1">
-
-    <tr>
-        <th>Student ID</th>
-        <th>Date</th>
-        <th>Status</th>
-    </tr>
-
-    {% for r in monthly_records %}
-
-    <tr>
-
-        <td>{{ r.student_id }}</td>
-        <td>{{ r.date }}</td>
-        <td>{{ r.status }}</td>
-
-    </tr>
-
-    {% endfor %}
-
-</table>
+</html>
