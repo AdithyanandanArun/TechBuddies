@@ -212,17 +212,11 @@ This project is open source and available under the MIT License. See the [LICENS
 
 ---
 
-## 👤 Author
-
-**Mohith1-stack** - [GitHub Profile](https://github.com/Mohith1-stack)
-
----
-
 ## 📧 Support & Contributing
 
 We welcome contributions from the community! Please read our [contributing guidelines](CONTRIBUTING.md) for more information.
 
-For issues, questions, or suggestions, please open an issue on the [GitHub repository](https://github.com/Mohith1-stack/TechBuddies/issues).
+For issues, questions, or suggestions, please open an issue on the [GitHub repository](https://github.com/TechBuddies/issues).
 
 ---
 
